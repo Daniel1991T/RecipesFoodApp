@@ -38,7 +38,7 @@ class MainViewModel @Inject constructor(
         _recipesResponse.value = NetworkResult.Loading()
         if (hasInternetConnection()) {
             try {
-                val response = dataSourceRepository.remote.getRecipes(queries)
+                val response = dataSourceRepository.getRemoteDataSource().getRecipes(queries)
                 _recipesResponse.value = handleFoodRecipesResponse(response)
             } catch (e: Exception) {
                 _recipesResponse.value = NetworkResult.Error(applicationContext.getString(R.string.error_recipes_not_found))

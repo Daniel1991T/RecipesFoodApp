@@ -8,5 +8,6 @@ import javax.inject.Inject
 class DefaultDataSourceRepository @Inject constructor(
     remoteDataSource: RemoteDataSource
 ) {
-    var remote = remoteDataSource
+    private val remote = remoteDataSource
+    fun getRemoteDataSource() = remote
 }

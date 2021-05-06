@@ -11,5 +11,6 @@
     <string name="error_api_key_limit">API Key Limited.</string>
     <string name="error_recipes_not_found">Recipes not found.</string>
     <string name="error_internet_connection">No Internet Connection</string>
+    <string name="vegan">Vegan</string>
 
 </resources>
