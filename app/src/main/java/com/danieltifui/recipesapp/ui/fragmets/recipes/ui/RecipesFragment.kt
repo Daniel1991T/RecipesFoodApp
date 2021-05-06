@@ -1,19 +1,25 @@
-package com.danieltifui.recipesapp.ui.fragmets.recipes
+package com.danieltifui.recipesapp.ui.fragmets.recipes.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.danieltifui.recipesapp.MainViewModel
+import com.danieltifui.recipesapp.ui.fragmets.recipes.viewmodels.MainViewModel
 import com.danieltifui.recipesapp.adapter.recyclerAdapters.RecipesAdapter
 import com.danieltifui.recipesapp.databinding.FragmentRecipesBinding
+import com.danieltifui.recipesapp.ui.fragmets.recipes.viewmodels.RecipesViewModel
 import com.danieltifui.recipesapp.untils.Constants.Companion.API_KEY
+import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
 import com.danieltifui.recipesapp.untils.NetworkResult
+import com.danieltifui.recipesapp.untils.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecipesFragment : Fragment() {
@@ -22,12 +28,13 @@ class RecipesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var recipesViewModel: RecipesViewModel
     private val mAdapter by lazy { RecipesAdapter() }
-    private lateinit var myView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        recipesViewModel = ViewModelProvider(requireActivity()).get(RecipesViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -36,15 +43,32 @@ class RecipesFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentRecipesBinding.inflate(inflater, container, false)
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        binding.lifecycleOwner = this
+        binding.mainViewModel = mainViewModel
+
         setupRecyclerView()
-        requestApiData()
+        readDatabase()
         return binding.root
     }
 
+    private fun readDatabase() {
+        lifecycleScope.launch {
+            mainViewModel.readRecipes.observe(viewLifecycleOwner, { database ->
+                if (database.isNotEmpty()) {
+                    Log.d(TAG_FRAGMENT, "readDatabase: called!")
+                    mAdapter.setData(database[0].foodRecipe)
+                    hideShimmerEffect()
+                } else {
+                    requestApiData()
+                }
+            })
+        }
+    }
+
     private fun requestApiData() {
-        mainViewModel.getRecipes(applyQueries())
-        mainViewModel.recipesResponse.observe(viewLifecycleOwner, { response ->
+        Log.d(TAG_FRAGMENT, "requestApiData: called!")
+        mainViewModel.getRecipes(recipesViewModel.applyQueries())
+        mainViewModel.recipesResponse.observeOnce(viewLifecycleOwner, { response ->
             when(response) {
                 is NetworkResult.Success -> {
                     hideShimmerEffect()
@@ -52,6 +76,7 @@ class RecipesFragment : Fragment() {
                 }
                 is NetworkResult.Error -> {
                     hideShimmerEffect()
+                    loadDataFromCache()
                     Toast.makeText(
                         requireContext(),
                         response.message.toString(),
@@ -65,15 +90,14 @@ class RecipesFragment : Fragment() {
         })
     }
 
-    private fun applyQueries(): HashMap<String, String> {
-        val queries: HashMap<String, String> = HashMap()
-        queries["number"] = "50"
-        queries["apiKey"] = API_KEY
-        queries["type"] = "snack"
-        queries["diet"] = "vegan"
-        queries["addRecipeInformation"] = "true"
-        queries["fillIngredients"] = "true"
-        return queries
+    private fun loadDataFromCache() {
+        lifecycleScope.launch {
+            mainViewModel.readRecipes.observe(viewLifecycleOwner, { database ->
+                if (database.isNotEmpty()) {
+                    mAdapter.setData(database[0].foodRecipe)
+                }
+            })
+        }
     }
 
     private fun setupRecyclerView() {

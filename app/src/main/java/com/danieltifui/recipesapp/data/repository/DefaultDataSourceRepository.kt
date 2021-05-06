@@ -1,5 +1,6 @@
 package com.danieltifui.recipesapp.data.repository
 
+import com.danieltifui.recipesapp.data.LocalDataSource
 import com.danieltifui.recipesapp.data.RemoteDataSource
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import dagger.hilt.android.scopes.ActivityScoped
@@ -9,7 +10,9 @@ import javax.inject.Singleton
 
 @ViewModelScoped
 class DefaultDataSourceRepository @Inject constructor(
-    remoteDataSource: RemoteDataSource
+    remoteDataSource: RemoteDataSource,
+    localDataSource: LocalDataSource
 ) {
     val remote = remoteDataSource
+    val local = localDataSource
 }
