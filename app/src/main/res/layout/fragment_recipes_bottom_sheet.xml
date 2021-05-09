@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <HorizontalScrollView
-        android:id="@+id/scroll_view_meal_type"
+        android:id="@+id/horizontal_scroll_view_meal_type"
         android:layout_width="match_parent"
         android:scrollbars="none"
         android:layout_height="wrap_content"
@@ -161,10 +161,10 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scroll_view_meal_type" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_scroll_view_meal_type" />
 
     <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
+        android:id="@+id/horizontal_scroll_view_diet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -277,5 +277,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_scroll_view_diet" />
 </androidx.constraintlayout.widget.ConstraintLayout>

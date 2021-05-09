@@ -15,6 +15,7 @@ import com.danieltifui.recipesapp.untils.Constants.Companion.QUERY_APY_KEY
 import com.danieltifui.recipesapp.untils.Constants.Companion.QUERY_DIET
 import com.danieltifui.recipesapp.untils.Constants.Companion.QUERY_FILL_INGREDIENTS
 import com.danieltifui.recipesapp.untils.Constants.Companion.QUERY_NUMBER
+import com.danieltifui.recipesapp.untils.Constants.Companion.QUERY_SEARCH
 import com.danieltifui.recipesapp.untils.Constants.Companion.QUERY_TYPE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -57,6 +58,16 @@ class RecipesViewModel @Inject constructor(
         queries[QUERY_APY_KEY] = API_KEY2
         queries[QUERY_TYPE] = mealType
         queries[QUERY_DIET] = dietType
+        queries[QUERY_ADD_RECIPE_INFORMATION] = "true"
+        queries[QUERY_FILL_INGREDIENTS] = "true"
+        return queries
+    }
+
+    fun searchQuery(searchQuery: String): HashMap<String, String> {
+        val queries: HashMap<String, String> = HashMap()
+        queries[QUERY_SEARCH] = searchQuery
+        queries[QUERY_NUMBER] = DEFAULT_QUERY_NUMBER
+        queries[QUERY_APY_KEY] = API_KEY2
         queries[QUERY_ADD_RECIPE_INFORMATION] = "true"
         queries[QUERY_FILL_INGREDIENTS] = "true"
         return queries

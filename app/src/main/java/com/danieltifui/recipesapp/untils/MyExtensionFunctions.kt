@@ -1,8 +1,13 @@
 package com.danieltifui.recipesapp.untils
 
+import android.content.res.Resources
+import android.util.Log
+import android.view.View
+import android.widget.HorizontalScrollView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import kotlinx.coroutines.delay
 
 fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
     observe(lifecycleOwner, object : Observer<T> {
@@ -11,4 +16,19 @@ fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observ
             observer.onChanged(t)
         }
     })
+}
+
+inline fun <reified T: View> HorizontalScrollView.scrollToPosition(
+    id: Int
+) {
+    Log.d("RecipesBottomSheet", "scrollToPosition: $id")
+    val view = findViewById<T>(id) ?: return
+    val leftEdgePx = view.left
+    val scrollCenterPx = Resources.getSystem().displayMetrics.widthPixels / 2
+    val scrollPx = if (leftEdgePx < scrollCenterPx) 0 else leftEdgePx - scrollCenterPx + view.width / 2
+    this.postOnAnimation {
+        Log.d("RecipesBottomSheet", "scrollToPosition: $scrollPx ${view.top}")
+        this.smoothScrollTo(scrollPx, view.top)
+    }
+
 }

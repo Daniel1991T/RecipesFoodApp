@@ -4,11 +4,13 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.lifecycle.*
 import com.danieltifui.recipesapp.data.database.RecipesEntity
 import com.danieltifui.recipesapp.data.repository.DefaultDataSourceRepository
 import com.danieltifui.recipesapp.models.FoodRecipe
 import com.danieltifui.recipesapp.untils.Constants.Companion.LIMITED_API_KEY_CODE
+import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
 import com.danieltifui.recipesapp.untils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -36,8 +38,16 @@ class MainViewModel @Inject constructor(
     private var _recipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
     var recipesResponse: LiveData<NetworkResult<FoodRecipe>> = _recipesResponse
 
+    private var _searchedRecipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
+    var searchedRecipesResponse: LiveData<NetworkResult<FoodRecipe>> = _searchedRecipesResponse
+
     fun getRecipes(queries: Map<String, String>) = viewModelScope.launch {
         getRecipesSafeCall(queries)
+    }
+
+    fun searchRecipes(searchQuery: Map<String, String>) = viewModelScope.launch {
+        Log.d("RecipesFragment", "searchRecipes: $searchQuery")
+        searchRecipesSafeCall(searchQuery)
     }
 
     private suspend fun getRecipesSafeCall(queries: Map<String, String>) {
@@ -55,6 +65,22 @@ class MainViewModel @Inject constructor(
             }
         } else {
             _recipesResponse.value = NetworkResult.Error("No Internet Conection")
+        }
+    }
+
+    private suspend fun searchRecipesSafeCall(searchQuery: Map<String, String>) {
+        _searchedRecipesResponse.value = NetworkResult.Loading()
+        if (hasInternetConnection()) {
+            try {
+                val response = dataSourceRepository.remote.searchRecipes(searchQuery)
+                Log.d(TAG_FRAGMENT, "searchRecipesSafeCall: ${response.body()}")
+                _searchedRecipesResponse.value = handleFoodRecipesResponse(response)
+                Log.d(TAG_FRAGMENT, "searchRecipesSafeCall: ${searchedRecipesResponse.value}")
+            } catch (e: Exception) {
+                _searchedRecipesResponse.value = NetworkResult.Error("Recipes not found.")
+            }
+        } else {
+            _searchedRecipesResponse.value = NetworkResult.Error("No Internet Conection")
         }
     }
 

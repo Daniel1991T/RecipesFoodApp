@@ -1,5 +1,6 @@
 package com.danieltifui.recipesapp.data
 
+import android.util.Log
 import com.danieltifui.recipesapp.models.FoodRecipe
 import com.danieltifui.recipesapp.data.network.FoodRecipesApi
 import dagger.hilt.android.scopes.ActivityRetainedScoped
@@ -13,5 +14,12 @@ class RemoteDataSource @Inject constructor(
 ) {
     suspend fun getRecipes(queries: Map<String, String>): Response<FoodRecipe> {
         return foodRecipesApi.getRecipes(queries)
+    }
+
+    suspend fun searchRecipes(searchQuery: Map<String, String>): Response<FoodRecipe> {
+
+        val result =  foodRecipesApi.searchRecipes(searchQuery)
+        Log.d("RecipesFragment", "searchRecipes: ${result.toString()}")
+        return result
     }
 }
