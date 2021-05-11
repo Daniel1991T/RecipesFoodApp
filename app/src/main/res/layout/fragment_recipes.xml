@@ -64,7 +64,7 @@
             android:alpha="0.5"
             readApiResponseText="@{mainViewModel.recipesResponse}"
             readDatabaseText="@{mainViewModel.readRecipes}"
-            android:text="No Internet Connection"
+            android:text="@string/no_internet_connection"
             android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="invisible"

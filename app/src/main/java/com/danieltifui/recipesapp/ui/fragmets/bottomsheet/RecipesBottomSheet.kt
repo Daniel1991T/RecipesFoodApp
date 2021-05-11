@@ -56,8 +56,8 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
             dietTypeChip = value.selectedDietType
             updateChip(value.selectedMealTypeId, binding.chipGroupTypeMeal)
             updateChip(value.selectedDietTypeId, binding.groupChipDietType)
-//            binding.horizontalScrollViewMealType.scrollToPosition<Chip>(value.selectedMealTypeId)
-//            binding.horizontalScrollViewDiet.scrollToPosition<Chip>(value.selectedDietTypeId)
+            binding.horizontalScrollViewMealType.scrollToPosition<Chip>(value.selectedMealTypeId)
+            binding.horizontalScrollViewDiet.scrollToPosition<Chip>(value.selectedDietTypeId)
 
         })
 
@@ -94,6 +94,10 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
 
     override fun onDestroyView() {

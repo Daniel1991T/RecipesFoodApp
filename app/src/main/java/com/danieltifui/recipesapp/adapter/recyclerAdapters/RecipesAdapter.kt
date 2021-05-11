@@ -1,5 +1,6 @@
 package com.danieltifui.recipesapp.adapter.recyclerAdapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.danieltifui.recipesapp.databinding.RecipesRowLayoutBinding
 import com.danieltifui.recipesapp.models.FoodRecipe
 import com.danieltifui.recipesapp.models.Result
+import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
 import com.danieltifui.recipesapp.untils.RecipesDiffUtil
 
 class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
@@ -17,6 +19,7 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentRecipe = recipes[position]
+        Log.d(TAG_FRAGMENT, "onBindViewHolder: $position and ${recipes[position].analyzedInstructions}")
         holder.binding(currentRecipe)
     }
 

@@ -58,6 +58,7 @@ class MainViewModel @Inject constructor(
                 _recipesResponse.value = handleFoodRecipesResponse(response)
                 val foodRecipe = recipesResponse.value!!.data
                 if (foodRecipe != null) {
+                    Log.d(TAG_FRAGMENT, "getRecipesSafeCall: $foodRecipe")
                     offlineCacheRecipes(foodRecipe)
                 }
             } catch (e: Exception) {
