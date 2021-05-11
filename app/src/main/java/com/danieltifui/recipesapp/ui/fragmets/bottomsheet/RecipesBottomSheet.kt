@@ -1,17 +1,22 @@
 package com.danieltifui.recipesapp.ui.fragmets.bottomsheet
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.HorizontalScrollView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.danieltifui.recipesapp.databinding.FragmentRecipesBottomSheetBinding
 import com.danieltifui.recipesapp.ui.fragmets.recipes.viewmodels.RecipesViewModel
 import com.danieltifui.recipesapp.untils.Constants.Companion.DEFAULT_DIET_TYPE
 import com.danieltifui.recipesapp.untils.Constants.Companion.DEFAULT_MEAL_TYPE
+import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
 import com.danieltifui.recipesapp.untils.observeOnce
 import com.danieltifui.recipesapp.untils.scrollToPosition
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -36,7 +41,7 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        recipesViewModel = ViewModelProvider(requireActivity()).get(RecipesViewModel::class.java)
+     recipesViewModel = ViewModelProvider(requireActivity()).get(RecipesViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -46,15 +51,13 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
         // Inflate the layout for this fragment
         _binding = FragmentRecipesBottomSheetBinding.inflate(inflater, container, false)
 
-        recipesViewModel.readMealAndDietType.asLiveData().observeOnce(viewLifecycleOwner, { value ->
+        recipesViewModel.readMealAndDietType.asLiveData().observe(viewLifecycleOwner, { value ->
             mealTypeChip = value.selectedMealType
             dietTypeChip = value.selectedDietType
             updateChip(value.selectedMealTypeId, binding.chipGroupTypeMeal)
-            Log.d(TAG, "onCreateView: ${value.selectedMealTypeId.toString()}")
-            binding.horizontalScrollViewMealType.scrollToPosition<Chip>(value.selectedMealTypeId)
             updateChip(value.selectedDietTypeId, binding.groupChipDietType)
-            Log.d(TAG, "onCreateView: ${value.selectedDietTypeId.toString()}")
-            binding.horizontalScrollViewDiet.scrollToPosition<Chip>(value.selectedDietTypeId)
+//            binding.horizontalScrollViewMealType.scrollToPosition<Chip>(value.selectedMealTypeId)
+//            binding.horizontalScrollViewDiet.scrollToPosition<Chip>(value.selectedDietTypeId)
 
         })
 
@@ -82,11 +85,21 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
     private fun updateChip(selectedChipId: Int, groupChip: ChipGroup) {
         if (selectedChipId != 0) {
             try {
-                groupChip.findViewById<Chip>(selectedChipId).isChecked = true
+                val target = groupChip.findViewById<Chip>(selectedChipId)
+                target.isChecked = true
+                groupChip.requestChildFocus(target, target)
             } catch (e: Exception) {
                 Log.d(TAG, "updateChip: ${e.message.toString()}")
             }
         }
+    }
+
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d(TAG, "onDestroyView: CALLED")
+        _binding = null
     }
 
 }
