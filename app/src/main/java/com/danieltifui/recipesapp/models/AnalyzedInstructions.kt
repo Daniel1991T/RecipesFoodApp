@@ -8,5 +8,5 @@ import kotlinx.parcelize.RawValue
 @Parcelize
 data class AnalyzedInstructions(
     @SerializedName("steps")
-    val steps: @RawValue List<Step>
+    val steps: @RawValue List<Step> = emptyList<Step>()
 ) : Parcelable

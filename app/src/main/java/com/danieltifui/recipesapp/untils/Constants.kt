@@ -23,6 +23,7 @@ class Constants {
 
         // TAGS for logs
         const val TAG_FRAGMENT = "RecipesFragment"
+        const val TAG_DETAILS_ACTIVITY = "DetailsActivity"
 
         //Bottom Sheet and Preferences
         const val PREFERENCE_NAME = "food_preferences"

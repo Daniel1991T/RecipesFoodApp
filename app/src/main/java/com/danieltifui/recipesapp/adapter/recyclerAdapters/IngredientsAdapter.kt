@@ -40,7 +40,7 @@ class IngredientsAdapter : RecyclerView.Adapter<IngredientsAdapter.ViewHolder>()
             }
             binding.ingredientsName.text = ingredients.name.capitalize(Locale.ROOT)
             binding.ingredientsAmount.text = ingredients.amount.toString()
-            binding.ingredientsUnit.text = ingredients.unit
+            binding.ingredientsUnit.text = ingredients?.unit ?: ""
             binding.ingredientsConsistency.text = ingredients.consistency
             binding.ingredientsOriginal.text = ingredients.original
         }

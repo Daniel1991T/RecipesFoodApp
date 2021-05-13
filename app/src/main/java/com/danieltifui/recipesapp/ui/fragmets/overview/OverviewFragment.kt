@@ -1,6 +1,7 @@
 package com.danieltifui.recipesapp.ui.fragmets.overview
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,8 @@ import com.danieltifui.recipesapp.R
 import com.danieltifui.recipesapp.databinding.FragmentOverviewBinding
 import com.danieltifui.recipesapp.models.Result
 import com.danieltifui.recipesapp.untils.Constants.Companion.DETAILS_BUNDLE_KEY
+import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_DETAILS_ACTIVITY
+import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
 import org.jsoup.Jsoup
 
 
@@ -35,6 +38,7 @@ class OverviewFragment : Fragment() {
         binding.titleDetailsTextView.text = myBundle?.title
         binding.likesTextView.text = myBundle?.aggregateLikes.toString()
         binding.timeTextView.text = myBundle?.readyInMinutes.toString()
+        Log.d(TAG_DETAILS_ACTIVITY, "onCreateView: $myBundle")
         myBundle?.summary.let {
             val summary = Jsoup.parse(it).text()
             binding.summaryTextView.text = summary

@@ -32,17 +32,16 @@ class InstructionsFragment : Fragment() {
         val args = arguments
         val myBundle: Result? = args?.getParcelable(Constants.DETAILS_BUNDLE_KEY)
         setupRecyclerView()
-        myBundle?.analyzedInstructions?.get(0)?.steps.let {
-            if (it != null) {
+        if (myBundle?.analyzedInstructions?.size!! > 0) {
+            myBundle.analyzedInstructions[0].steps.let {
                 binding.errorImageView.visibility = View.GONE
                 binding.errorTextView.visibility = View.GONE
                 mAdapter.setData(it)
-            } else {
-                binding.errorImageView.visibility = View.VISIBLE
-                binding.errorTextView.visibility = View.VISIBLE
             }
+        } else {
+            binding.errorImageView.visibility = View.VISIBLE
+            binding.errorTextView.visibility = View.VISIBLE
         }
-
 
         return binding.root
     }

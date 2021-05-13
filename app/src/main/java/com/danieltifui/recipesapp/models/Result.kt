@@ -14,7 +14,7 @@ data class Result(
     @SerializedName("dairyFree")
     val dairyFree: Boolean,
     @SerializedName("extendedIngredients")
-    val extendedIngredients: @RawValue List<ExtendedIngredient>,
+    val extendedIngredients: @RawValue List<ExtendedIngredient>? = emptyList(),
     @SerializedName("glutenFree")
     val glutenFree: Boolean,
     @SerializedName("id")
@@ -38,5 +38,5 @@ data class Result(
     @SerializedName("veryHealthy")
     val veryHealthy: Boolean,
     @SerializedName("analyzedInstructions")
-    val analyzedInstructions: @RawValue List<AnalyzedInstructions>
+    val analyzedInstructions: @RawValue List<AnalyzedInstructions>? = emptyList()
 ) : Parcelable

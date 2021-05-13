@@ -30,7 +30,9 @@ class IngredientsFragment : Fragment() {
         val args = arguments
         val myBundle: Result? = args?.getParcelable(DETAILS_BUNDLE_KEY)
         setupRecyclerView()
-        myBundle?.extendedIngredients?.let { myAdapter.setData(it) }
+        myBundle?.extendedIngredients?.let {
+           myAdapter.setData(it)
+        }
 
         return binding.root
     }

@@ -19,7 +19,7 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentRecipe = recipes[position]
-        Log.d(TAG_FRAGMENT, "onBindViewHolder: $position and ${recipes[position].analyzedInstructions}")
+        Log.d(TAG_FRAGMENT, "onBindViewHolder: $position and ${recipes[position].extendedIngredients}")
         holder.binding(currentRecipe)
     }
 
