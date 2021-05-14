@@ -1,4 +1,4 @@
-package com.danieltifui.recipesapp.ui.fragmets.recipes.viewmodels
+package com.danieltifui.recipesapp.viewmodels
 
 import android.app.Application
 import android.content.Context
@@ -11,7 +11,7 @@ import com.danieltifui.recipesapp.data.repository.DefaultDataSourceRepository
 import com.danieltifui.recipesapp.models.FoodRecipe
 import com.danieltifui.recipesapp.untils.Constants.Companion.LIMITED_API_KEY_CODE
 import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
-import com.danieltifui.recipesapp.untils.NetworkResult
+import com.danieltifui.recipesapp.untils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,11 +35,11 @@ class MainViewModel @Inject constructor(
 
 
     /** RETROFIT **/
-    private var _recipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
-    var recipesResponse: LiveData<NetworkResult<FoodRecipe>> = _recipesResponse
+    private var _recipesResponse: MutableLiveData<Resource<FoodRecipe>> = MutableLiveData()
+    var recipesResponse: LiveData<Resource<FoodRecipe>> = _recipesResponse
 
-    private var _searchedRecipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
-    var searchedRecipesResponse: LiveData<NetworkResult<FoodRecipe>> = _searchedRecipesResponse
+    private var _searchedRecipesResponse: MutableLiveData<Resource<FoodRecipe>> = MutableLiveData()
+    var searchedRecipesResponse: LiveData<Resource<FoodRecipe>> = _searchedRecipesResponse
 
     fun getRecipes(queries: Map<String, String>) = viewModelScope.launch {
         getRecipesSafeCall(queries)
@@ -51,7 +51,7 @@ class MainViewModel @Inject constructor(
     }
 
     private suspend fun getRecipesSafeCall(queries: Map<String, String>) {
-        _recipesResponse.value = NetworkResult.Loading()
+        _recipesResponse.value = Resource.Loading()
         if (hasInternetConnection()) {
             try {
                 val response = dataSourceRepository.remote.getRecipes(queries)
@@ -62,15 +62,15 @@ class MainViewModel @Inject constructor(
                     offlineCacheRecipes(foodRecipe)
                 }
             } catch (e: Exception) {
-                _recipesResponse.value = NetworkResult.Error("Recipes not found.")
+                _recipesResponse.value = Resource.Error("Recipes not found.")
             }
         } else {
-            _recipesResponse.value = NetworkResult.Error("No Internet Conection")
+            _recipesResponse.value = Resource.Error("No Internet Conection")
         }
     }
 
     private suspend fun searchRecipesSafeCall(searchQuery: Map<String, String>) {
-        _searchedRecipesResponse.value = NetworkResult.Loading()
+        _searchedRecipesResponse.value = Resource.Loading()
         if (hasInternetConnection()) {
             try {
                 val response = dataSourceRepository.remote.searchRecipes(searchQuery)
@@ -78,10 +78,10 @@ class MainViewModel @Inject constructor(
                 _searchedRecipesResponse.value = handleFoodRecipesResponse(response)
                 Log.d(TAG_FRAGMENT, "searchRecipesSafeCall: ${searchedRecipesResponse.value}")
             } catch (e: Exception) {
-                _searchedRecipesResponse.value = NetworkResult.Error("Recipes not found.")
+                _searchedRecipesResponse.value = Resource.Error("Recipes not found.")
             }
         } else {
-            _searchedRecipesResponse.value = NetworkResult.Error("No Internet Conection")
+            _searchedRecipesResponse.value = Resource.Error("No Internet Conection")
         }
     }
 
@@ -90,23 +90,23 @@ class MainViewModel @Inject constructor(
         insertRecipes(recipesEntity)
     }
 
-    private fun handleFoodRecipesResponse(response: Response<FoodRecipe>): NetworkResult<FoodRecipe> {
+    private fun handleFoodRecipesResponse(response: Response<FoodRecipe>): Resource<FoodRecipe> {
         when {
             response.message().toString().contains("timeout") -> {
-                return NetworkResult.Error("Timeout")
+                return Resource.Error("Timeout")
             }
             response.code() == LIMITED_API_KEY_CODE -> {
-                return NetworkResult.Error("API Key Limit")
+                return Resource.Error("API Key Limit")
             }
             response.body()!!.results.isNullOrEmpty() -> {
-                return NetworkResult.Error("Recipes Not found.")
+                return Resource.Error("Recipes Not found.")
             }
             response.isSuccessful -> {
                 val foodRecipe = response.body()
-                return NetworkResult.Success(foodRecipe!!)
+                return Resource.Success(foodRecipe!!)
             }
             else -> {
-                return NetworkResult.Error(response.message())
+                return Resource.Error(response.message())
             }
         }
     }

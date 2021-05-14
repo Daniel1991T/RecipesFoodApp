@@ -1,23 +1,17 @@
 package com.danieltifui.recipesapp.ui.fragmets.bottomsheet
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.HorizontalScrollView
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.danieltifui.recipesapp.databinding.FragmentRecipesBottomSheetBinding
-import com.danieltifui.recipesapp.ui.fragmets.recipes.viewmodels.RecipesViewModel
+import com.danieltifui.recipesapp.viewmodels.RecipesViewModel
 import com.danieltifui.recipesapp.untils.Constants.Companion.DEFAULT_DIET_TYPE
 import com.danieltifui.recipesapp.untils.Constants.Companion.DEFAULT_MEAL_TYPE
-import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
-import com.danieltifui.recipesapp.untils.observeOnce
 import com.danieltifui.recipesapp.untils.scrollToPosition
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip

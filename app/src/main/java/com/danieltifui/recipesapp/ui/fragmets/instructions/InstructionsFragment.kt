@@ -36,7 +36,9 @@ class InstructionsFragment : Fragment() {
             myBundle.analyzedInstructions[0].steps.let {
                 binding.errorImageView.visibility = View.GONE
                 binding.errorTextView.visibility = View.GONE
-                mAdapter.setData(it)
+                if (it != null) {
+                    mAdapter.setData(it)
+                }
             }
         } else {
             binding.errorImageView.visibility = View.VISIBLE

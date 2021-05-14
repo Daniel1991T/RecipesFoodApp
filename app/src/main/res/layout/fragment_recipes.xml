@@ -6,7 +6,7 @@
     <data>
         <variable
             name="mainViewModel"
-            type="com.danieltifui.recipesapp.ui.fragmets.recipes.viewmodels.MainViewModel" />
+            type="com.danieltifui.recipesapp.viewmodels.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

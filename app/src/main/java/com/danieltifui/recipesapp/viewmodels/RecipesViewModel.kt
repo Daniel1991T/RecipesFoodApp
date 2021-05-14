@@ -1,10 +1,9 @@
-package com.danieltifui.recipesapp.ui.fragmets.recipes.viewmodels
+package com.danieltifui.recipesapp.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.danieltifui.recipesapp.data.repository.DataStoreRepository
-import com.danieltifui.recipesapp.untils.Constants
 import com.danieltifui.recipesapp.untils.Constants.Companion.API_KEY
 import com.danieltifui.recipesapp.untils.Constants.Companion.API_KEY2
 import com.danieltifui.recipesapp.untils.Constants.Companion.DEFAULT_DIET_TYPE
@@ -55,7 +54,7 @@ class RecipesViewModel @Inject constructor(
         }
 
         queries[QUERY_NUMBER] = DEFAULT_QUERY_NUMBER
-        queries[QUERY_APY_KEY] = API_KEY
+        queries[QUERY_APY_KEY] = API_KEY2
         queries[QUERY_TYPE] = mealType
         queries[QUERY_DIET] = dietType
         queries[QUERY_ADD_RECIPE_INFORMATION] = "true"

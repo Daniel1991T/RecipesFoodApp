@@ -20,6 +20,7 @@ class Constants {
         // ROOM Database
         const val DATABASE_NAME = "recipes_database"
         const val RECIPES_TABLE = "recipes_table"
+        const val FAVORITES_RECIPE_TABLE = "favorite_recipe_table"
 
         // TAGS for logs
         const val TAG_FRAGMENT = "RecipesFragment"
