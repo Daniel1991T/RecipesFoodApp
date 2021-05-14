@@ -1,10 +1,9 @@
-package com.danieltifui.recipesapp.ui.fragmets.recipes.viewmodels
+package com.danieltifui.recipesapp.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.danieltifui.recipesapp.data.repository.DataStoreRepository
-import com.danieltifui.recipesapp.untils.Constants
 import com.danieltifui.recipesapp.untils.Constants.Companion.API_KEY
 import com.danieltifui.recipesapp.untils.Constants.Companion.API_KEY2
 import com.danieltifui.recipesapp.untils.Constants.Companion.DEFAULT_DIET_TYPE

@@ -13,14 +13,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.danieltifui.recipesapp.R
-import com.danieltifui.recipesapp.ui.fragmets.recipes.viewmodels.MainViewModel
+import com.danieltifui.recipesapp.viewmodels.MainViewModel
 import com.danieltifui.recipesapp.adapter.recyclerAdapters.RecipesAdapter
 import com.danieltifui.recipesapp.databinding.FragmentRecipesBinding
-import com.danieltifui.recipesapp.ui.fragmets.recipes.viewmodels.NetworkViewModel
-import com.danieltifui.recipesapp.ui.fragmets.recipes.viewmodels.RecipesViewModel
+import com.danieltifui.recipesapp.viewmodels.NetworkViewModel
+import com.danieltifui.recipesapp.viewmodels.RecipesViewModel
 import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
 import com.danieltifui.recipesapp.untils.NetworkListener
-import com.danieltifui.recipesapp.untils.NetworkResult
+import com.danieltifui.recipesapp.untils.Resource
 import com.danieltifui.recipesapp.untils.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -100,11 +100,11 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
         mainViewModel.getRecipes(recipesViewModel.applyQueries())
         mainViewModel.recipesResponse.observeOnce(viewLifecycleOwner, { response ->
             when(response) {
-                is NetworkResult.Success -> {
+                is Resource.Success -> {
                     hideShimmerEffect()
                     response.data?.let { mAdapter.setData(it) }
                 }
-                is NetworkResult.Error -> {
+                is Resource.Error -> {
                     hideShimmerEffect()
                     loadDataFromCache()
                     Toast.makeText(
@@ -113,7 +113,7 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                is NetworkResult.Loading -> {
+                is Resource.Loading -> {
                     showShimmerEffect()
                 }
             }
@@ -125,12 +125,12 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
         mainViewModel.searchRecipes(recipesViewModel.searchQuery(searchQuery))
         mainViewModel.searchedRecipesResponse.observe(viewLifecycleOwner, { response ->
             when(response) {
-                is NetworkResult.Success -> {
+                is Resource.Success -> {
                     hideShimmerEffect()
                     Log.d(TAG_FRAGMENT, "searchApiData: ${response.data.toString()}")
                     response.data?.let { mAdapter.setData(it) }
                 }
-                is NetworkResult.Error -> {
+                is Resource.Error -> {
                     hideShimmerEffect()
                     loadDataFromCache()
                     Toast.makeText(
@@ -140,7 +140,7 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
                     ).show()
 
                 }
-                is NetworkResult.Loading -> {
+                is Resource.Loading -> {
                     showShimmerEffect()
                 }
             }

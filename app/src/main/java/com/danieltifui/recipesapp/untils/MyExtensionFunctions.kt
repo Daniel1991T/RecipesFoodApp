@@ -1,14 +1,17 @@
 package com.danieltifui.recipesapp.untils
 
+import android.app.Activity
 import android.content.res.Resources
 import android.util.Log
 import android.view.View
 import android.widget.HorizontalScrollView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.danieltifui.recipesapp.ui.fragmets.bottomsheet.TAG
 import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 
 fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
@@ -33,5 +36,20 @@ inline fun <reified T: View> HorizontalScrollView.scrollToPosition(
         Log.d(TAG, "scrollToPosition: $scrollPx ${view.top}")
         this.smoothScrollTo(scrollPx, view.top)
     }
+}
 
+fun Fragment.snackbar(text: String) {
+    Snackbar.make(
+        requireView(),
+        text,
+        Snackbar.LENGTH_LONG
+    ).setAction("Okay") {}.show()
+}
+
+fun Activity.snackbar(text: String, view: View) {
+    Snackbar.make(
+        view,
+        text,
+        Snackbar.LENGTH_LONG
+    ).setAction("Okay") {}.show()
 }
