@@ -2,7 +2,6 @@ package com.danieltifui.recipesapp.models
 
 import android.os.Parcelable
 import androidx.room.*
-import com.danieltifui.recipesapp.data.database.favoritedb.InstructionsTypeConverter
 import com.danieltifui.recipesapp.untils.Constants.Companion.FAVORITES_RECIPE_TABLE
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize

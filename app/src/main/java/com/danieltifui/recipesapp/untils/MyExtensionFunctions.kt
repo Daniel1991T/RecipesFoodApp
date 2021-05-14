@@ -10,9 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.danieltifui.recipesapp.ui.fragmets.bottomsheet.TAG
-import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.delay
 
 fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
     observe(lifecycleOwner, object : Observer<T> {

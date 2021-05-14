@@ -59,7 +59,7 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
         setHasOptionsMenu(true)
         setupRecyclerView()
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             networkListener = NetworkListener()
             networkListener.checkNetworkAvailability(requireContext())
                 .collect { status ->
@@ -86,8 +86,8 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
                 Log.d(TAG_FRAGMENT, "safe args: ${args.backFromBottomSheet}")
                 if (database.isNotEmpty() && !args.backFromBottomSheet) {
                     Log.d(TAG_FRAGMENT, "readDatabase: called!")
-                    hideShimmerEffect()
                     mAdapter.setData(database[0].foodRecipe)
+                    hideShimmerEffect()
                 } else {
                     requestApiData()
                 }
@@ -98,7 +98,7 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun requestApiData() {
         Log.d(TAG_FRAGMENT, "requestApiData: called!")
         mainViewModel.getRecipes(recipesViewModel.applyQueries())
-        mainViewModel.recipesResponse.observeOnce(viewLifecycleOwner, { response ->
+        mainViewModel.recipesResponse.observe(viewLifecycleOwner, { response ->
             when(response) {
                 is Resource.Success -> {
                     hideShimmerEffect()
@@ -149,7 +149,7 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun loadDataFromCache() {
         lifecycleScope.launch {
-            mainViewModel.readRecipes.observeOnce(viewLifecycleOwner, { database ->
+            mainViewModel.readRecipes.observe(viewLifecycleOwner, { database ->
                 if (database.isNotEmpty()) {
                     mAdapter.setData(database[0].foodRecipe)
                     hideShimmerEffect()
