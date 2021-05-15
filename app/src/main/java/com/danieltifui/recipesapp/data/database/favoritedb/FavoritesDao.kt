@@ -12,7 +12,7 @@ interface FavoritesDao {
     suspend fun insertRecipes(favoritesRecipeEntity: Result)
 
     @Query("SELECT * FROM favorite_recipe_table ORDER BY source_name ASC")
-    fun getAllFavoritesRecipes(): Flow<List<Result>>
+    fun getAllFavoritesRecipes(): List<Result>
 
     @Query("SELECT id FROM favorite_recipe_table WHERE id = :id")
     suspend fun getFavoriteRecipes(id: Int): Int

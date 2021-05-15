@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragmets.favorites.FavoriteRecipesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <com.todkars.shimmer.ShimmerRecyclerView
+        android:id="@+id/favorites_recycler_view"
+        app:shimmer_recycler_item_count="3"
+        app:shimmer_recycler_layout="@layout/placeholder_row_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/error_image_view"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:alpha="0.5"
+        android:src="@drawable/ic_sad_24"
+        android:visibility="invisible"
+        app:tint="@color/darkGray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Favorite Recipes Fragment" />
+        android:id="@+id/error_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:alpha="0.5"
+        android:text="@string/error_recipes_not_found"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/darkGray"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/error_image_view"
+        app:layout_constraintStart_toStartOf="@+id/error_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/error_image_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

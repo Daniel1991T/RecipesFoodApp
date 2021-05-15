@@ -37,6 +37,15 @@ class FavoriteRepository @Inject constructor(
         }
     }
 
+    suspend fun getFavoriteRecipes(): Resource<List<Result>> {
+        return withContext(Dispatchers.IO) {
+            safeCall {
+                val result = database.getAllFavoriteRecipes()
+                Resource.Success(result)
+            }
+        }
+    }
+
     suspend fun getFavoriteStatus(recipesId: Int): Resource<Int> {
         return withContext(Dispatchers.IO) {
             safeCall {
