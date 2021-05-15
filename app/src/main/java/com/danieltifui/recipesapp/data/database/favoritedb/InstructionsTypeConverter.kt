@@ -16,7 +16,7 @@ class InstructionsTypeConverter {
 
     @TypeConverter
     fun stringToAnalyzedInstructions(data: String): List<AnalyzedInstructions> {
-        val listType = object : TypeToken<AnalyzedInstructions>() {}.type
+        val listType = object : TypeToken<List<AnalyzedInstructions>>(){}.type
         return gson.fromJson(data, listType)
     }
 }

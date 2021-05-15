@@ -17,7 +17,7 @@ class IngredientsListTypeConverter {
 
     @TypeConverter
     fun stringToIngredientList(data: String): List<ExtendedIngredient> {
-        val listType = object : TypeToken<List<ExtendedIngredient>>() {}.type
+        val listType = object : TypeToken<List<ExtendedIngredient>>(){}.type
         return gson.fromJson(data, listType)
     }
 }
