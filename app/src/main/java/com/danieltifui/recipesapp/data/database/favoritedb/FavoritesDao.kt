@@ -14,8 +14,8 @@ interface FavoritesDao {
     @Query("SELECT * FROM favorite_recipe_table ORDER BY source_name ASC")
     fun getAllFavoritesRecipes(): Flow<List<Result>>
 
-    @Query("SELECT * FROM favorite_recipe_table WHERE id == :id")
-    fun getFavoriteRecipes(id: Int): Flow<Result>
+    @Query("SELECT id FROM favorite_recipe_table WHERE id = :id")
+    suspend fun getFavoriteRecipes(id: Int): Int
 
     @Delete
     suspend fun delete(favoritesRecipeEntity: Result)
