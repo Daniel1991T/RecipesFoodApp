@@ -1,5 +1,6 @@
 package com.danieltifui.recipesapp.data
 
+import android.util.Log
 import com.danieltifui.recipesapp.data.database.RecipesDAO
 import com.danieltifui.recipesapp.data.database.RecipesEntity
 import com.danieltifui.recipesapp.data.database.favoritedb.FavoritesDao
@@ -27,4 +28,13 @@ class LocalDataSource @Inject constructor(
     suspend fun insertFavoriteRecipes(favoritesRecipeEntity: Result) {
         favoritesDao.insertRecipes(favoritesRecipeEntity)
     }
+
+    suspend fun getIsFavoriteRecipes(recipesId: Int): Int {
+        return favoritesDao.getFavoriteRecipes(recipesId)
+    }
+
+    suspend fun deleteFromFavoriteRecipes(recipes: Result) {
+        favoritesDao.delete(recipes)
+    }
+
 }

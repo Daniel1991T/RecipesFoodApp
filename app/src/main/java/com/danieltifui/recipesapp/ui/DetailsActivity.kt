@@ -2,6 +2,7 @@ package com.danieltifui.recipesapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -16,6 +17,8 @@ import com.danieltifui.recipesapp.ui.fragmets.ingredients.IngredientsFragment
 import com.danieltifui.recipesapp.ui.fragmets.instructions.InstructionsFragment
 import com.danieltifui.recipesapp.ui.fragmets.overview.OverviewFragment
 import com.danieltifui.recipesapp.untils.Constants.Companion.DETAILS_BUNDLE_KEY
+import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_DETAILS_ACTIVITY
+import com.danieltifui.recipesapp.untils.Resource
 import com.danieltifui.recipesapp.untils.snackbar
 import com.danieltifui.recipesapp.viewmodels.DetailsFavoritesViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -32,6 +35,8 @@ class DetailsActivity : AppCompatActivity() {
     private val detailsFavoritesViewModel: DetailsFavoritesViewModel by viewModels<DetailsFavoritesViewModel>()
     private lateinit var menuItem: MenuItem
 
+    private var isFavoriteRecipes = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
@@ -40,6 +45,7 @@ class DetailsActivity : AppCompatActivity() {
         setSupportActionBar(binding.detailsToolbar)
         binding.detailsToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         val fragments = arrayListOf<Fragment>(
             OverviewFragment(),
@@ -66,21 +72,54 @@ class DetailsActivity : AppCompatActivity() {
         TabLayoutMediator(binding.detailsTabLayout, binding.detailsViewPager) { tab, position ->
             tab.text = titles[position]
         }.attach()
+        detailsFavoritesViewModel.getIsFavoriteStatus(args.result.id ?: -1)
+    }
+
+    private fun checkSavedRecipes(menuItem: MenuItem) {
+        detailsFavoritesViewModel.isFavoriteStatus.observe(this, { isFavorite ->
+            Log.d("test", "checkSavedRecipes: ${args.result.id} and ${isFavorite.message}")
+            when(isFavorite) {
+                is Resource.Success -> {
+                    if (isFavorite.data == args.result.id) {
+                        isFavoriteRecipes = true
+                        changeMenuItemColor(menuItem, R.color.yellow)
+                    } else {
+                        isFavoriteRecipes = false
+                        changeMenuItemColor(menuItem, R.color.white)
+                    }
+                }
+                is Resource.Error -> {
+                    Log.d("test", "checkSavedRecipes: ")
+                    changeMenuItemColor(menuItem, R.color.white)
+                }
+                else -> return@observe
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.details_save_favorite_menu, menu)
         menuItem = menu!!.findItem(R.id.save_favorite_menu)
+        checkSavedRecipes(menuItem)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             finish()
-        } else if (item.itemId == R.id.save_favorite_menu) {
+        } else if (item.itemId == R.id.save_favorite_menu && !isFavoriteRecipes) {
             saveToFavorites(item)
+        } else if (item.itemId == R.id.save_favorite_menu && isFavoriteRecipes) {
+            removeToFavorite(item)
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun removeToFavorite(item: MenuItem) {
+        val favorites = args.result
+        detailsFavoritesViewModel.deleteFromFavoriteRecipes(favorites)
+        changeMenuItemColor(menuItem, R.color.white)
+        snackbar("Recipes delete from favorite!", binding.detailsLayout)
     }
 
     private fun saveToFavorites(item: MenuItem) {
@@ -88,15 +127,6 @@ class DetailsActivity : AppCompatActivity() {
         detailsFavoritesViewModel.insertFavoriteRecipes(favorites)
         changeMenuItemColor(item, R.color.yellow)
         snackbar("Recipes saved", binding.detailsLayout)
-    }
-
-    private fun showSnackBar(message: String) {
-        Snackbar.make(
-            binding.detailsLayout,
-            message,
-            Snackbar.LENGTH_LONG
-        ).setAction("Okay") {}
-            .show()
     }
 
     private fun changeMenuItemColor(item: MenuItem, color: Int) {
