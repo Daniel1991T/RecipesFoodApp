@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import coil.load
 import com.danieltifui.recipesapp.R
 import com.danieltifui.recipesapp.models.Result
+import com.danieltifui.recipesapp.ui.fragmets.favorites.FavoriteRecipesFragmentDirections
 import com.danieltifui.recipesapp.ui.fragmets.recipes.ui.RecipesFragmentDirections
 import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
 import org.jsoup.Jsoup
@@ -72,12 +73,22 @@ class RecipesRowBindingAdapter {
             recipesRowLayout.setOnClickListener {
                 try {
                     val action = RecipesFragmentDirections.actionRecipesFragmentToDetailsActivity(result)
+                    Log.d("rowClick", "onRecipesClickListener: $action")
                     recipesRowLayout.findNavController().navigate(action)
+                    return@setOnClickListener
                 } catch (e: Exception) {
-                    Log.d(TAG_FRAGMENT, "onRecipesClickListener: $e")
+                    Log.d("rowClick", "onRecipesClickListener: $e")
+                }
+                try {
+                    val action = FavoriteRecipesFragmentDirections.actionFavoriteRecipesFragmentToDetailsActivity(result)
+                    recipesRowLayout.findNavController().navigate(action)
+                    return@setOnClickListener
+                } catch (e: Exception) {
+                    Log.d("rowClick", "onRecipesClickListener: $e")
                 }
             }
         }
+
 
         @BindingAdapter("parseHtml")
         @JvmStatic

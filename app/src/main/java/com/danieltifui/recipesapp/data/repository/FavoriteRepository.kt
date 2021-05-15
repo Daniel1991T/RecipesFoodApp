@@ -37,6 +37,10 @@ class FavoriteRepository @Inject constructor(
         }
     }
 
+    suspend fun deleteAllFavoriteRecipes() {
+        database.deleteAllFavoriteRecipes()
+    }
+
     suspend fun getFavoriteRecipes(): Resource<List<Result>> {
         return withContext(Dispatchers.IO) {
             safeCall {

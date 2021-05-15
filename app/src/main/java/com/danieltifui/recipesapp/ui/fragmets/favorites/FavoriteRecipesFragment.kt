@@ -2,11 +2,10 @@ package com.danieltifui.recipesapp.ui.fragmets.favorites
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.danieltifui.recipesapp.R
 import com.danieltifui.recipesapp.adapter.recyclerAdapters.RecipesAdapter
@@ -14,7 +13,9 @@ import com.danieltifui.recipesapp.databinding.FragmentFavoriteRecipesBinding
 import com.danieltifui.recipesapp.databinding.FragmentRecipesBinding
 import com.danieltifui.recipesapp.models.FoodRecipe
 import com.danieltifui.recipesapp.untils.Resource
+import com.danieltifui.recipesapp.untils.snackbar
 import com.danieltifui.recipesapp.viewmodels.FavoriteViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Response
 
@@ -33,10 +34,22 @@ class FavoriteRecipesFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentFavoriteRecipesBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         setupRecyclerView()
         subscribeToObservers()
         favoritesViewModel.getFavoriteRecipes()
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.favorites_contextual_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.delete_favorite_recipe_menu) {
+            findNavController().navigate(R.id.action_favoriteRecipesFragment_to_deleteAllDialogFragment)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun subscribeToObservers() {
