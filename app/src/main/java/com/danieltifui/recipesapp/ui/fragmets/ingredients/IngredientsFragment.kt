@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.danieltifui.recipesapp.R
 import com.danieltifui.recipesapp.adapter.recyclerAdapters.IngredientsAdapter
@@ -13,12 +14,16 @@ import com.danieltifui.recipesapp.databinding.FragmentInstructionsBinding
 import com.danieltifui.recipesapp.models.Result
 import com.danieltifui.recipesapp.untils.Constants
 import com.danieltifui.recipesapp.untils.Constants.Companion.DETAILS_BUNDLE_KEY
+import com.danieltifui.recipesapp.viewmodels.GroceryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class IngredientsFragment : Fragment() {
 
     private var _binding: FragmentIngredientsBinding? = null
     private val binding get() = _binding!!
     private val myAdapter: IngredientsAdapter by lazy { IngredientsAdapter() }
+    private val groceryViewModel: GroceryViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +37,10 @@ class IngredientsFragment : Fragment() {
         setupRecyclerView()
         myBundle?.extendedIngredients?.let {
            myAdapter.setData(it)
+        }
+
+        binding.addGroceryButton.setOnClickListener {
+            if (myBundle != null) groceryViewModel.insertGroceryRecipes(myBundle)
         }
 
         return binding.root

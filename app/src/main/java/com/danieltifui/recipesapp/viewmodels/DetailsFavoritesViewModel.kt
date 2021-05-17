@@ -3,7 +3,10 @@ package com.danieltifui.recipesapp.viewmodels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
+import com.danieltifui.recipesapp.data.database.grocery.GroceryRecipesEntity
+import com.danieltifui.recipesapp.data.database.grocery.Ingredients
 import com.danieltifui.recipesapp.data.repository.FavoriteRepository
+import com.danieltifui.recipesapp.data.repository.GroceryRepository
 import com.danieltifui.recipesapp.models.Result
 import com.danieltifui.recipesapp.untils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +28,7 @@ class DetailsFavoritesViewModel @Inject constructor(
 
     private var _deleteFavoriteRecipesStatus = MutableLiveData<Resource<Any>>()
     var deleteFavoriteRecipesStatus: LiveData<Resource<Any>> = _deleteFavoriteRecipesStatus
+
 
     fun getIsFavoriteStatus(recipesId: Int) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -57,5 +57,9 @@
     <string name="delete_dialog_message">Are you sure you want to delete the entire list of favorite recipes?</string>
     <string name="no">No</string>
     <string name="delete_all">Delete All</string>
+    <string name="add_to_grocery">Add To Grocery</string>
+    <string name="grocery_list">Grocery List</string>
+    <string name="original">Original</string>
+    <string name="grocery">Grocery</string>
 
 </resources>
