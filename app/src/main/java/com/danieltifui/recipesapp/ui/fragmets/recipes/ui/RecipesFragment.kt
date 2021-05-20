@@ -6,6 +6,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.size
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +17,7 @@ import com.danieltifui.recipesapp.R
 import com.danieltifui.recipesapp.viewmodels.MainViewModel
 import com.danieltifui.recipesapp.adapter.recyclerAdapters.RecipesAdapter
 import com.danieltifui.recipesapp.databinding.FragmentRecipesBinding
+import com.danieltifui.recipesapp.untils.Constants.Companion.RECIPES_LAYOUT_TAG
 import com.danieltifui.recipesapp.viewmodels.NetworkViewModel
 import com.danieltifui.recipesapp.viewmodels.RecipesViewModel
 import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
@@ -37,7 +39,7 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var recipesViewModel: RecipesViewModel
     private val networkViewModel: NetworkViewModel by viewModels()
-    private val mAdapter by lazy { RecipesAdapter() }
+    private val mAdapter by lazy { RecipesAdapter(RECIPES_LAYOUT_TAG) }
 
     private lateinit var networkListener: NetworkListener
 
@@ -163,6 +165,7 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.recipesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         showShimmerEffect()
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.recipes_menu, menu)

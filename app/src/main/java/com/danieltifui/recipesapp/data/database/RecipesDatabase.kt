@@ -4,7 +4,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.danieltifui.recipesapp.data.database.favoritedb.FavoritesDao
-import com.danieltifui.recipesapp.data.database.favoritedb.FavoritesRecipeEntity
 import com.danieltifui.recipesapp.data.database.favoritedb.IngredientsListTypeConverter
 import com.danieltifui.recipesapp.data.database.favoritedb.InstructionsTypeConverter
 import com.danieltifui.recipesapp.data.database.grocery.GroceryDao

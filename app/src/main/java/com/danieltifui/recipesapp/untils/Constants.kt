@@ -42,5 +42,9 @@ class Constants {
         // key args
         const val DETAILS_BUNDLE_KEY = "recipeBundle"
 
+
+        const val RECIPES_LAYOUT_TAG = "recipesLayoutTag"
+        const val FAVORITE_LAYOUT_TAG = "favoriteLayoutTag"
+
     }
 }

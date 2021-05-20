@@ -12,6 +12,7 @@ import com.danieltifui.recipesapp.adapter.recyclerAdapters.RecipesAdapter
 import com.danieltifui.recipesapp.databinding.FragmentFavoriteRecipesBinding
 import com.danieltifui.recipesapp.databinding.FragmentRecipesBinding
 import com.danieltifui.recipesapp.models.FoodRecipe
+import com.danieltifui.recipesapp.untils.Constants.Companion.FAVORITE_LAYOUT_TAG
 import com.danieltifui.recipesapp.untils.Resource
 import com.danieltifui.recipesapp.untils.snackbar
 import com.danieltifui.recipesapp.viewmodels.FavoriteViewModel
@@ -26,7 +27,7 @@ class FavoriteRecipesFragment : Fragment() {
     private val binding get() = _binding!!
     private val favoritesViewModel: FavoriteViewModel by viewModels()
 
-    private val mAdapter by lazy { RecipesAdapter() }
+    private val mAdapter by lazy { RecipesAdapter(FAVORITE_LAYOUT_TAG) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

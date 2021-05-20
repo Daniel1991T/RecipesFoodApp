@@ -11,15 +11,15 @@ import com.danieltifui.recipesapp.models.Result
 import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
 import com.danieltifui.recipesapp.untils.RecipesDiffUtil
 
-class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
+class RecipesAdapter(private var layoutTag: String) : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
 
     private var recipes = emptyList<Result>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MyViewHolder.from(parent)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MyViewHolder.from(parent, tag = layoutTag)
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentRecipe = recipes[position]
-        Log.d(TAG_FRAGMENT, "onBindViewHolder: $position and ${recipes[position].extendedIngredients}")
         holder.binding(currentRecipe)
     }
 
@@ -40,9 +40,10 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
             binding.executePendingBindings()
         }
         companion object {
-            fun from(parent: ViewGroup): MyViewHolder {
+            fun from(parent: ViewGroup, tag: String): MyViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = RecipesRowLayoutBinding.inflate(layoutInflater, parent, false)
+                binding.recipesRowLayout.tag = tag
                 return MyViewHolder(binding)
             }
         }
