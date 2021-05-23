@@ -21,6 +21,7 @@ class Constants {
         const val DATABASE_NAME = "recipes_database"
         const val RECIPES_TABLE = "recipes_table"
         const val FAVORITES_RECIPE_TABLE = "favorite_recipe_table"
+        const val GROCERY_RECIPE_TABLE = "grocery_recipe_table"
 
         // TAGS for logs
         const val TAG_FRAGMENT = "RecipesFragment"
@@ -40,6 +41,10 @@ class Constants {
 
         // key args
         const val DETAILS_BUNDLE_KEY = "recipeBundle"
+
+
+        const val RECIPES_LAYOUT_TAG = "recipesLayoutTag"
+        const val FAVORITE_LAYOUT_TAG = "favoriteLayoutTag"
 
     }
 }

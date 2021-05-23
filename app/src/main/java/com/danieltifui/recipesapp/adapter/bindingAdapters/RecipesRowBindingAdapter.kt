@@ -13,6 +13,8 @@ import com.danieltifui.recipesapp.R
 import com.danieltifui.recipesapp.models.Result
 import com.danieltifui.recipesapp.ui.fragmets.favorites.FavoriteRecipesFragmentDirections
 import com.danieltifui.recipesapp.ui.fragmets.recipes.ui.RecipesFragmentDirections
+import com.danieltifui.recipesapp.untils.Constants.Companion.FAVORITE_LAYOUT_TAG
+import com.danieltifui.recipesapp.untils.Constants.Companion.RECIPES_LAYOUT_TAG
 import com.danieltifui.recipesapp.untils.Constants.Companion.TAG_FRAGMENT
 import org.jsoup.Jsoup
 import java.lang.Exception
@@ -37,7 +39,7 @@ class RecipesRowBindingAdapter {
         @JvmStatic
         fun applyVeganColor(view: View, isVegan: Boolean) {
             if (isVegan) {
-                when(view) {
+                when (view) {
                     is TextView -> {
                         view.setTextColor(
                             ContextCompat.getColor(
@@ -66,26 +68,45 @@ class RecipesRowBindingAdapter {
                 error(R.drawable.ic_error_placeholder)
             }
         }
+
         @BindingAdapter("onRecipesClickListener")
         @JvmStatic
         fun onRecipesClickListener(recipesRowLayout: ConstraintLayout, result: Result) {
             Log.d(TAG_FRAGMENT, "onRecipesClickListener: CALLED")
             recipesRowLayout.setOnClickListener {
-                try {
-                    val action = RecipesFragmentDirections.actionRecipesFragmentToDetailsActivity(result)
-                    Log.d("rowClick", "onRecipesClickListener: $action")
-                    recipesRowLayout.findNavController().navigate(action)
-                    return@setOnClickListener
-                } catch (e: Exception) {
-                    Log.d("rowClick", "onRecipesClickListener: $e")
+                when (recipesRowLayout.tag) {
+                    RECIPES_LAYOUT_TAG -> {
+                        val action =
+                            RecipesFragmentDirections.actionRecipesFragmentToDetailsActivity(result)
+                        Log.d("rowClick", "onRecipesClickListener: $action")
+                        recipesRowLayout.findNavController().navigate(action)
+                    }
+                    FAVORITE_LAYOUT_TAG -> {
+                        val action =
+                            FavoriteRecipesFragmentDirections.actionFavoriteRecipesFragmentToDetailsActivity(
+                                result
+                            )
+                        recipesRowLayout.findNavController().navigate(action)
+                    }
                 }
-                try {
-                    val action = FavoriteRecipesFragmentDirections.actionFavoriteRecipesFragmentToDetailsActivity(result)
-                    recipesRowLayout.findNavController().navigate(action)
-                    return@setOnClickListener
-                } catch (e: Exception) {
-                    Log.d("rowClick", "onRecipesClickListener: $e")
-                }
+//                try {
+//                    val action = RecipesFragmentDirections.actionRecipesFragmentToDetailsActivity(result)
+//                          Log.d("rowClick", "onRecipesClickListener: $action")
+//                          recipesRowLayout.findNavController().navigate(action)
+//                    return@setOnClickListener
+//                } catch (e: Exception) {
+//                    Log.d("rowClick", "onRecipesClickListener: $e")
+//                }
+//                try {
+//                    val action =
+//                        FavoriteRecipesFragmentDirections.actionFavoriteRecipesFragmentToDetailsActivity(
+//                            result
+//                        )
+//                    recipesRowLayout.findNavController().navigate(action)
+//                    return@setOnClickListener
+//                } catch (e: Exception) {
+//                    Log.d("rowClick", "onRecipesClickListener: $e")
+//                }
             }
         }
 

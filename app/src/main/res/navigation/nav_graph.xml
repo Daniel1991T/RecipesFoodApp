@@ -34,10 +34,10 @@
             app:destination="@id/detailsActivity" />
     </fragment>
     <fragment
-        android:id="@+id/foodJokeFragment"
-        android:name="com.danieltifui.recipesapp.ui.fragmets.joke.FoodJokeFragment"
-        android:label="Food Joke"
-        tools:layout="@layout/fragment_food_joke" />
+        android:id="@+id/groceryFragment"
+        android:name="com.danieltifui.recipesapp.ui.fragmets.grocery.GroceryFragment"
+        android:label="Grocery"
+        tools:layout="@layout/fragment_grocery" />
     <dialog
         android:id="@+id/recipesBottomSheet"
         android:name="com.danieltifui.recipesapp.ui.fragmets.bottomsheet.RecipesBottomSheet"
