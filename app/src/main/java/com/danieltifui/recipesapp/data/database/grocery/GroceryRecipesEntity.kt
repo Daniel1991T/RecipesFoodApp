@@ -21,7 +21,7 @@ data class GroceryRecipesEntity(
 @Parcelize
 data class Ingredients(
     @SerializedName("isBought")
-    val isBought: Boolean? = false,
+    var isBought: Boolean? = false,
     @SerializedName("amount")
     val amount: Double? = 0.0,
     @SerializedName("consistency")

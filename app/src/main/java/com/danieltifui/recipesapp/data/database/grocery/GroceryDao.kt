@@ -1,9 +1,6 @@
 package com.danieltifui.recipesapp.data.database.grocery
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface GroceryDao {
@@ -13,4 +10,11 @@ interface GroceryDao {
 
     @Query("SELECT * FROM grocery_recipe_table ORDER BY name ASC")
     suspend fun getAllGrocery(): List<GroceryRecipesEntity>
+
+    @Query("SELECT * FROM grocery_recipe_table WHERE id == :id")
+    suspend fun getSpecificGrocery(id: Int): GroceryRecipesEntity
+
+    @Update
+    suspend fun updateGrocery(groceryRecipesEntity: GroceryRecipesEntity)
+
 }

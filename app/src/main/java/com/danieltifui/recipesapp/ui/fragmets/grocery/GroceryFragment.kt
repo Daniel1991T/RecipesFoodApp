@@ -73,7 +73,4 @@ class GroceryFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
-
 }

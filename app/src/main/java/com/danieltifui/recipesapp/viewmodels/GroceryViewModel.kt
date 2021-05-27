@@ -26,6 +26,23 @@ class GroceryViewModel @Inject constructor(
     private var _groceryList = MutableLiveData<Resource<List<GroceryRecipesEntity>>>()
     val groceryList: LiveData<Resource<List<GroceryRecipesEntity>>> = _groceryList
 
+    private var _ingredientsList = MutableLiveData<Resource<GroceryRecipesEntity>>()
+    val ingredientsList: LiveData<Resource<GroceryRecipesEntity>> = _ingredientsList
+
+    fun updateGroceryRecipes(entity: GroceryRecipesEntity) {
+        viewModelScope.launch {
+            groceryRepository.updateGroceryRecipes(entity)
+        }
+    }
+
+    fun getSpecificGrocery(id: Int) {
+        _ingredientsList.postValue(Resource.Loading())
+        viewModelScope.launch {
+            val result = groceryRepository.getSpecificGrocery(id)
+            _ingredientsList.postValue(result)
+        }
+    }
+
     fun getAllGroceryList() {
         _groceryList.postValue(Resource.Loading())
         viewModelScope.launch {

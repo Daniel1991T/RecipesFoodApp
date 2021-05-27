@@ -15,12 +15,20 @@ class LocalDataSource @Inject constructor(
     private val groceryDao: GroceryDao
 ) {
 
+    suspend fun updateGroceryRecipe(groceryRecipesEntity: GroceryRecipesEntity) {
+        groceryDao.updateGrocery(groceryRecipesEntity)
+    }
+
     suspend fun insertGrocery(groceryRecipesEntity: GroceryRecipesEntity) {
         groceryDao.insertRecipes(groceryRecipesEntity)
     }
 
     suspend fun getAllGrocery(): List<GroceryRecipesEntity> {
         return groceryDao.getAllGrocery()
+    }
+
+    suspend fun getSpecificGrocery(id: Int): GroceryRecipesEntity {
+        return groceryDao.getSpecificGrocery(id)
     }
 
     suspend fun insertRecipes(recipesEntity: RecipesEntity) {

@@ -2,10 +2,14 @@ package com.danieltifui.recipesapp.adapter.recyclerAdapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.danieltifui.recipesapp.data.database.grocery.GroceryRecipesEntity
 import com.danieltifui.recipesapp.databinding.GroceryRowLayoutBinding
+import com.danieltifui.recipesapp.ui.fragmets.dialogs.DeleteAllDialogFragmentDirections
+import com.danieltifui.recipesapp.ui.fragmets.grocery.GroceryFragmentDirections
+import com.danieltifui.recipesapp.ui.fragmets.recipes.ui.RecipesFragmentDirections
 import com.danieltifui.recipesapp.untils.RecipesDiffUtil
 
 class GroceryListAdapter : RecyclerView.Adapter<GroceryListAdapter.ViewHolder>() {
@@ -16,6 +20,10 @@ class GroceryListAdapter : RecyclerView.Adapter<GroceryListAdapter.ViewHolder>()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        holder.bind(groceryList[position])
+        holder.itemView.setOnClickListener {
+            val action = GroceryFragmentDirections.actionGroceryFragmentToGroceryIngredientsFragment(groceryList[position].id)
+            it.findNavController().navigate(action)
+        }
     }
 
     override fun getItemCount() = groceryList.size

@@ -37,7 +37,11 @@
         android:id="@+id/groceryFragment"
         android:name="com.danieltifui.recipesapp.ui.fragmets.grocery.GroceryFragment"
         android:label="Grocery"
-        tools:layout="@layout/fragment_grocery" />
+        tools:layout="@layout/fragment_grocery" >
+        <action
+            android:id="@+id/action_groceryFragment_to_groceryIngredientsFragment"
+            app:destination="@id/groceryIngredientsFragment" />
+    </fragment>
     <dialog
         android:id="@+id/recipesBottomSheet"
         android:name="com.danieltifui.recipesapp.ui.fragmets.bottomsheet.RecipesBottomSheet"
@@ -71,5 +75,17 @@
         <action
             android:id="@+id/action_deleteAllDialogFragment_to_recipesFragment"
             app:destination="@id/recipesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groceryIngredientsFragment"
+        android:name="com.danieltifui.recipesapp.ui.fragmets.grocery.GroceryIngredientsFragment"
+        android:label="Grocery Ingredients"
+        tools:layout="@layout/fragment_grocery_ingredients">
+        <action
+            android:id="@+id/action_groceryIngredientsFragment_to_groceryFragment"
+            app:destination="@id/groceryFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
     </fragment>
 </navigation>

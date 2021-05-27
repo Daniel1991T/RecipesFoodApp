@@ -16,6 +16,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/grocery_card_view"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             app:cardCornerRadius="12dp"
