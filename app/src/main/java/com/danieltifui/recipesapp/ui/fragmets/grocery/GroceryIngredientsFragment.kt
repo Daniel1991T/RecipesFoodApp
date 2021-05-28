@@ -42,13 +42,6 @@ class GroceryIngredientsFragment : Fragment() {
         mAdapter.setOnCheckedClickListener { ingredients ->
             Log.d("TAG", "onCreateView: $ingredients")
             val result = groceryViewModel.ingredientsList.value?.data
-            result?.ingredients?.map { item ->
-                if (item.name == ingredients.name) {
-                    item.apply {
-                        item.isBought = !item.isBought!!
-                    }
-                }
-            }
             result?.let { groceryViewModel.updateGroceryRecipes(it) }
         }
 
